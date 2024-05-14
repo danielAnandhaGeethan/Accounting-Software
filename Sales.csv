@@ -1,0 +1,10 @@
+product id,product name,stock,price per unit,total sales,status
+PXY-23334,Plywood,56,120,19,Available
+GSX-47821,Glasses,45,140,20,Available
+NPW-78532,Wood,38,200,17,Restock
+XPA-56782,Paint,30,470,18,Restock
+SBA-34987,Araldite,20,70,11,Restock
+FHG-17985,PVC Sheets,47,95,23,Available
+LBX-53328,Laminate,23,200,16,Restock
+DFT-87654,Door Frames,18,400,7,Restock
+ALN-43246,Acrylic Laminate,36,250,15,Available

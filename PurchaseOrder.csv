@@ -1,0 +1,20 @@
+Date,purchase order,Vendor,delivery date,status,amount
+5/1/2024,PO-47890,Chennai glass & plwoods,6/1/2024,draft,2047
+7/1/2024,PO-47891,Mannat ply,10/1/2024,closed,5010
+12/1/2024,PO-47892,Century plywoods,19/1/2024,in-progress,11300
+25/1/2024,PO-47893,woodtech plywoods,30/1/2024,on hold,7400
+3/2/2024,PO-47894,GSM enterprises,6/2/2024,closed,3200
+8/2/2024,PO-47895,ADP plywoods,10/2/2024,draft,6400
+15/2/2024,PO-47896,Century plywoods,18/2/2024,on hold,9000
+19/2/2024,PO-47897,Green ply ,21/2/2024,on hold,5430
+26/2/2024,PO-47898,Golden Plywoods,27/2/2024,closed,4368
+6/3/2024,PO-47899,Crownply plywoods,10/3/2024,in-progress,1478
+17/3/2024,PO-47900,Sharply plywoods,20/3/2024,in-progress,8652
+22/3/2024,PO-47901,Paramount Plywoods,24/3/2024,draft,16826
+26/3/2024,PO-47902,RK glasses and plywoods,30/3/2024,closed,18435
+7/4/2024,PO-47903,Mannat ply,10/4/2024,draft,7543
+11/4/2024,PO-47904,Sharon plywood,15/4/2024,closed,12348
+18/4/2024,PO-47905,GSM enterprises,24/4/2024,in-progress,8654
+1/5/2024,PO-47906,willow ply,3/5/2024,draft,2349
+9/5/2024,PO-47907,RK glasses and plywoods,11/5/2024,on hold,5439
+13/5/2024,PO-47908,Paramount Plywoods,15/5/2024,in-progress,2357
