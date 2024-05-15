@@ -354,13 +354,11 @@ def show_taxes():
 
     total_tax_amount = sum(tax_values)
 
-    start_date = pd.Timestamp("2024-01-01")
-    end_date = start_date + pd.DateOffset(months=len(tax_values)-1)
-
     date_range = pd.date_range(start='2024-01-31', periods=len(tax_values), freq='M')
+    date_range = date_range.date
 
     tax_df = pd.DataFrame({
-        'Date': date_range.date,
+        'Date': date_range,
         'Due Amount': tax_values
     })
 
@@ -368,6 +366,8 @@ def show_taxes():
     tax_df.iloc[-1, tax_df.columns.get_loc('Balance')] = 0 
 
     tax_df['Paid Amount'] = total_tax_amount - tax_df['Balance']
+
+    tax_df['Date'] = pd.to_datetime(tax_df['Date'])
 
     tax_df['Start Date'] = tax_df['Date'].shift(1)
     tax_df['End Date'] = tax_df['Date']
