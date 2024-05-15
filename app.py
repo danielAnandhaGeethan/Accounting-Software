@@ -1,10 +1,11 @@
 import streamlit as st
 import pandas as pd
-import csv
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 import pymongo
+import random
+import json
 
 username = "Daniel"
 password = "20bai1111"
@@ -14,17 +15,6 @@ connection_string = f"mongodb+srv://{username}:{password}@cluster0.bk1vhhz.mongo
 
 client = pymongo.MongoClient(connection_string)
 db = client[dbname]
-
-def connect_mongodb():
-    
-
-    """collection = db["hello"]
-
-    print("hello")
-    for document in collection.find():
-        print(document)
-
-    client.close()"""
 
 def main():
 
@@ -169,12 +159,60 @@ def show_stock_status(data):
     st.pyplot(fig)
     plt.close(fig)
 
-def convert_to_dataframe(collection):
+def convert_to_dataframe(collection, type = 0):
 
-    cursor = collection.find({}, {"_id": 0})
+    if type == 0:
+        cursor = collection.find({}, {"_id": 0})
+    else:
+        cursor = collection
     df = pd.DataFrame(list(cursor))
 
     return df
+
+def count_total(document):
+
+    total = 0
+    for key,value in document.items():
+        total += int(value)
+
+    return total
+
+def get_box(key, value):
+
+    index = random.randint(0, 3)
+
+    if index == 0:
+        st.info(f"{key} \n\n {value}")
+    elif index == 1:
+        st.warning(f"{key} \n\n {value}")
+    elif index == 2:
+        st.success(f"{key} \n\n {value}")
+    elif index == 3:
+        st.error(f"{key} \n\n {value}")
+
+def get_line_chart(expenses):
+
+    expense = convert_to_dataframe(expenses["Expenses"], type = 1)
+    payroll = convert_to_dataframe(expenses["Annual Payroll"], type = 1)
+
+    x1_values = payroll.columns.tolist()
+    y1_values = payroll.values.flatten().tolist()
+
+    x2_values = expense.columns.tolist() 
+    y2_values = expense.values.flatten().tolist()
+
+    fig_status, ax_status = plt.subplots(figsize=(5, 5))
+
+    ax_status.plot(x1_values, y1_values, label='Annual Payroll')
+    ax_status.plot(x2_values, y2_values, label='Expenses')
+
+    ax_status.set_xlabel('Time Line')
+    ax_status.set_ylabel('Amount')
+    ax_status.set_title('Line Chart')
+    ax_status.legend()
+
+    st.pyplot(fig_status)
+    plt.close(fig_status)
 
 def show_dashboard():
     st.markdown("<h1 style='color: #ffffff; font-size: 30px;'>DashBoard</h1>", unsafe_allow_html = True)
@@ -308,11 +346,82 @@ def show_invoices():
 
 def show_taxes():
     st.markdown("<h1 style='color: #ffffff; font-size: 40px;'>Taxes</h1>", unsafe_allow_html = True)
-    st.write("This is the taxes section.")
 
+    expenses = convert_to_dataframe(db["Expense_Tax"]) 
+    tax_values = expenses.Taxes[0]['taxes']
+
+    tax_values = [int(amount) for amount in tax_values]
+
+    total_tax_amount = sum(tax_values)
+
+    start_date = pd.Timestamp("2024-01-01")
+    end_date = start_date + pd.DateOffset(months=len(tax_values)-1)
+
+    date_range = pd.date_range(start='2024-01-31', periods=len(tax_values), freq='M')
+
+    tax_df = pd.DataFrame({
+        'Date': date_range.date,
+        'Due Amount': tax_values
+    })
+
+    tax_df['Balance'] = total_tax_amount - tax_df['Due Amount'].cumsum()
+    tax_df.iloc[-1, tax_df.columns.get_loc('Balance')] = 0 
+
+    tax_df['Paid Amount'] = total_tax_amount - tax_df['Balance']
+
+    tax_df['Start Date'] = tax_df['Date'].shift(1)
+    tax_df['End Date'] = tax_df['Date']
+    tax_df['Overdue Days'] = (tax_df['End Date'] - tax_df['Start Date']).dt.days
+
+    st.write("###### Tax Payment Schedule")
+    st.write(tax_df)
+    
 def show_expenses():
     st.markdown("<h1 style='color: #ffffff; font-size: 40px;'>Expenses</h1>", unsafe_allow_html = True)
-    st.write("This is the expenses section.")
+    
+    expenses = convert_to_dataframe(db["Expense_Tax"])
+    
+    keys = ["Labor Costs", "Materials", "Maintenance", "Rent and Lease", "Electricity", "Utilities", "Transportation"]
+    
+    data = {}
+
+    for i in keys:
+        total = count_total(expenses[i][0])
+        data[i] = total
+
+    data = dict(sorted(data.items(), key=lambda item: item[1], reverse = True))
+
+    check_box = st.checkbox("Show All Expenses")
+
+    count = 0
+
+    if not check_box:
+
+        row = st.columns(3)
+        cnt = 0
+        for key,value in data.items():
+            if cnt == 3:
+                break
+            
+            with row[cnt]:
+                get_box(key, value)
+            
+            cnt += 1
+
+    else:
+        
+        row = [""] * 10
+        for key,value in data.items():
+            if count % 3 == 0:
+                row[count//3] = st.columns(3)
+            
+            with row[count//3][count]:
+                get_box(key, value)
+            
+            count = (count + 1) % 3
+
+    with st.columns([6,1])[0]:
+        get_line_chart(expenses)
 
 if __name__ == "__main__":
     main()

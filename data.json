@@ -1,0 +1,59 @@
+{
+  "Expenses": {
+    "1_year": "632220",
+    "6_months": "388403",
+    "3_months": "51368",
+    "1_month": "15560"
+  },
+  "Annual Payroll": {
+    "1_year": "271436",
+    "6_months": "171141",
+    "3_months": "18157",
+    "1_month": "6589"
+  },
+  "Labor Costs": {
+    "1_year": "9350",
+    "6_months": "6491",
+    "3_months": "714",
+    "1_month": "324"
+  },
+  "Materials": {
+    "1_year": "20673",
+    "6_months": "10727",
+    "3_months": "1586",
+    "1_month": "438"
+  },
+  "Maintenance": {
+    "1_year": "3358",
+    "6_months": "2008",
+    "3_months": "321",
+    "1_month": "59"
+  },
+  "Rent and Lease": {
+    "1_year": "26268",
+    "6_months": "16851",
+    "3_months": "2273",
+    "1_month": "1262"
+  },
+  "Electricity": {
+    "1_year": "5567",
+    "6_months": "3054",
+    "3_months": "397",
+    "1_month": "140"
+  },
+  "Utilities": {
+    "1_year": "1412",
+    "6_months": "902",
+    "3_months": "145",
+    "1_month": "33"
+  },
+  "Transportation": {
+    "1_year": "32684",
+    "6_months": "17934",
+    "3_months": "1780",
+    "1_month": "808"
+  },
+  "Taxes": {
+    "taxes": ["689", "338", "569", "231", "133", "588", "4305", "7189"]
+  }
+}
